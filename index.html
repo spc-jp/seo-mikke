@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEOみっけ｜集客力診断ツール</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #223670;
+    --navy-dark: #172550;
+    --navy-light: #2d4890;
+    --gold: #D0A900;
+    --gold-light: #f0c800;
+    --gold-pale: #fff8d6;
+    --white: #ffffff;
+    --gray-100: #f5f6fa;
+    --gray-200: #e8eaf0;
+    --gray-500: #8890a8;
+    --gray-700: #444c66;
+    --green: #22a86e;
+    --orange: #f08030;
+    --red: #e03040;
+    --shadow: 0 4px 24px rgba(34,54,112,0.12);
+    --shadow-lg: 0 8px 40px rgba(34,54,112,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    min-height: 100vh;
+  }
+
+  /* ヘッダー */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(208,169,0,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-icon {
+    width: 52px; height: 52px;
+    background: var(--gold);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(208,169,0,0.4);
+  }
+  .header-text h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .header-text p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .gold-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 60%, transparent 100%);
+  }
+
+  /* メインコンテナ */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* 入力カード */
+  .input-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-200);
+    margin-bottom: 28px;
+  }
+  .input-card h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .input-card h2::before {
+    content: '';
+    display: block;
+    width: 4px; height: 20px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media(max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+  }
+  .form-group input,
+  .form-group select {
+    padding: 12px 14px;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--gray-700);
+    background: var(--white);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--navy);
+  }
+  .form-group input::placeholder {
+    color: var(--gray-500);
+    font-size: 0.85rem;
+  }
+
+  .form-full {
+    margin-bottom: 16px;
+  }
+
+  .btn-diagnose {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .btn-diagnose::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.4s;
+  }
+  .btn-diagnose:hover::after { left: 100%; }
+  .btn-diagnose:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(34,54,112,0.35);
+  }
+  .btn-diagnose:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ローディング */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 48px 20px;
+  }
+  .loading.show { display: block; }
+  .spinner {
+    width: 52px; height: 52px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--navy);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p {
+    color: var(--navy);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* エラー */
+  .error-box {
+    display: none;
+    background: #fff0f0;
+    border: 2px solid var(--red);
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: var(--red);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .error-box.show { display: block; }
+
+  /* 結果エリア */
+  .result-area {
+    display: none;
+    animation: fadeUp 0.5s ease;
+  }
+  .result-area.show { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* スコアヘッダー */
+  .score-header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+    border-radius: 20px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .score-header::before {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(208,169,0,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .score-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .shop-name-result {
+    color: var(--white);
+  }
+  .shop-name-result .label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .shop-name-result .name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  /* スコアメーター */
+  .score-meter {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .meter-svg {
+    display: block;
+    width: 160px;
+    height: 90px;
+    margin: 0 auto;
+  }
+  .score-value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-top: -4px;
+  }
+  .score-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  .score-comment {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.1);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* セクションタイトル */
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    display: block;
+    width: 4px; height: 18px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* 診断カードグリッド */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .diag-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid var(--gray-200);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .diag-card:hover { transform: translateY(-3px); }
+  .diag-card.good { border-color: rgba(34,168,110,0.4); }
+  .diag-card.warn { border-color: rgba(240,128,48,0.4); }
+  .diag-card.bad  { border-color: rgba(224,48,64,0.4); }
+
+  .diag-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .diag-card.good::before { background: var(--green); }
+  .diag-card.warn::before { background: var(--orange); }
+  .diag-card.bad::before  { background: var(--red); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .card-icon {
+    font-size: 1.4rem;
+  }
+  .card-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+  .badge-good { background: rgba(34,168,110,0.12); color: var(--green); }
+  .badge-warn { background: rgba(240,128,48,0.12); color: var(--orange); }
+  .badge-bad  { background: rgba(224,48,64,0.12); color: var(--red); }
+
+  .card-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gray-500);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .card-value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .card-comment {
+    font-size: 0.8rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+
+  /* 改善提案ボックス */
+  .proposal-box {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 28px 28px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--gold-pale);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .proposal-box::before {
+    content: '💡';
+    position: absolute;
+    top: -10px; right: 20px;
+    font-size: 3rem;
+    opacity: 0.1;
+  }
+
+  .proposal-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .proposal-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .proposal-item:first-child { padding-top: 0; }
+
+  .proposal-num {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .proposal-content .title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .proposal-content .desc {
+    font-size: 0.82rem;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  .proposal-content .impact {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--gold-pale);
+    color: #8a6e00;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(208,169,0,0.4);
+  }
+
+  /* 業種別アドバイス */
+  .industry-box {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+  }
+  .industry-box .section-title {
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .industry-box .section-title::before {
+    background: var(--gold);
+  }
+  .industry-tips {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .industry-tip {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    border-left: 3px solid var(--gold);
+  }
+  .tip-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* フッター */
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--gray-500);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ノート */
+  .note-text {
+    font-size: 0.76rem;
+    color: var(--gray-500);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-icon">🔍</div>
+    <div class="header-text">
+      <h1>SEOみっけ｜集客力診断</h1>
+      <p>Googleマップ ＋ サイト速度 を一発診断 ✨</p>
+    </div>
+  </div>
+</header>
+<div class="gold-bar"></div>
+
+<div class="container">
+
+  <!-- 入力カード -->
+  <div class="input-card">
+    <h2>店舗・サイト情報を入力</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>🏪 店舗名・施設名</label>
+        <input type="text" id="shopName" placeholder="例：カフェ山田 新宿店">
+      </div>
+      <div class="form-group">
+        <label>🗂️ 業種</label>
+        <select id="industry">
+          <option value="">-- 選択してください --</option>
+          <option value="restaurant">飲食店（カフェ・レストラン）</option>
+          <option value="beauty">美容・サロン</option>
+          <option value="tax">税理士・会計事務所</option>
+          <option value="lawyer">弁護士・法律事務所</option>
+          <option value="medical">医療・クリニック</option>
+          <option value="retail">小売・物販</option>
+          <option value="manufacturing">製造業</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row form-full">
+      <div class="form-group">
+        <label>🌐 WebサイトURL（SEO診断用）</label>
+        <input type="url" id="siteUrl" placeholder="https://example.com">
+      </div>
+      <div class="form-group">
+        <label>📍 Googleマップの店舗名またはPlace ID</label>
+        <input type="text" id="placeQuery" placeholder="例：カフェ山田 新宿店">
+      </div>
+    </div>
+
+    <p class="note-text">※ Googleマップ診断にはPlace IDが必要です。店舗名で検索して自動取得します。<br>※ サイトURL診断はPageSpeed Insights APIを使用します（無料）。</p>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <button class="btn-diagnose" id="btnDiagnose" onclick="startDiagnosis()">
+      🔍 集客力を診断する
+    </button>
+  </div>
+
+  <!-- ローディング -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>診断中です。少々お待ちください…✨</p>
+  </div>
+
+  <!-- 結果エリア -->
+  <div class="result-area" id="resultArea">
+
+    <!-- スコアヘッダー -->
+    <div class="score-header">
+      <div class="score-header-top">
+        <div class="shop-name-result">
+          <div class="label">DIAGNOSIS RESULT</div>
+          <div class="name" id="resultShopName">---</div>
+        </div>
+        <div class="score-meter">
+          <svg class="meter-svg" viewBox="0 0 160 90">
+            <path d="M 15 85 A 65 65 0 0 1 145 85" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="10" stroke-linecap="round"/>
+            <path id="meterArc" d="M 15 85 A 65 65 0 0 1 145 85" fill="none" stroke="#D0A900" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 204"/>
+          </svg>
+          <div class="score-value" id="totalScore">--</div>
+          <div class="score-label">/ 100点</div>
+        </div>
+      </div>
+      <div class="score-comment" id="scoreComment">診断結果をロード中...</div>
+    </div>
+
+    <!-- Googleマップ診断 -->
+    <div class="section-title">📍 Googleビジネスプロフィール診断</div>
+    <div class="cards-grid" id="mapsCards"></div>
+
+    <!-- SEO診断 -->
+    <div class="section-title">⚡ サイトSEO・表示速度診断</div>
+    <div class="cards-grid" id="seoCards"></div>
+
+    <!-- 業種別アドバイス -->
+    <div class="industry-box" id="industryBox">
+      <div class="section-title">🎯 業種別・集客アップ提案</div>
+      <div class="industry-tips" id="industryTips"></div>
+    </div>
+
+    <!-- 改善提案 -->
+    <div class="proposal-box">
+      <div class="section-title">🚀 優先改善アクション</div>
+      <div id="proposalList"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  SEOみっけ｜Powered by Smile Plus Consulting<br>
+  © 2025 SPC. Google Places API / PageSpeed Insights API 使用
+</footer>
+
+<script>
+const WORKER_URL = 'https://seo-mikke.yymmatsu.workers.dev';
+
+// 業種別アドバイスデータ
+const industryAdvice = {
+  restaurant: [
+    { tag: 'インスタ活用', text: '料理写真をInstagramに週3投稿すると、Googleマップへの流入が平均30%アップする事例が多数あります。ハッシュタグは「#エリア名ランチ」が特に効果的です。' },
+    { tag: 'Googleマップ', text: 'メニュー写真を10枚以上登録した店舗は、未登録店舗と比べて「道案内リクエスト」が2倍以上になる傾向があります。' },
+    { tag: '口コミ対策', text: 'レシートやポップに「口コミのお願い」QRコードを設置するだけで、口コミ数が月5〜10件ペースで増えた飲食店事例があります。' }
+  ],
+  beauty: [
+    { tag: 'インスタ活用', text: 'ビフォーアフター写真の投稿は美容サロンで最も効果的なコンテンツです。月8投稿継続で新規予約が20〜40%増加した事例があります。' },
+    { tag: 'Googleマップ', text: '営業時間・定休日の正確な登録と「予約リンク」の設定で、マップ経由の予約転換率が大幅に向上します。' },
+    { tag: '口コミ対策', text: '施術後にLINEで「よろしければ口コミをお願いします」とメッセージを送るだけで、口コミ率が3〜5倍になった事例があります。' }
+  ],
+  tax: [
+    { tag: 'SEO対策', text: '「地域名＋税理士」「地域名＋確定申告」などのキーワードページを作成すると、地域密着型の問い合わせが増加します。' },
+    { tag: 'コンテンツ', text: '「節税チェックリスト」「補助金まとめ」などの無料資料をサイトに設置すると、問い合わせの質・量ともに向上します。' },
+    { tag: 'Googleマップ', text: '士業は「口コミの専門性・誠実さ」が集客に直結します。対応の速さや丁寧さに言及した口コミが3件以上あると信頼度が大きく上がります。' }
+  ],
+  lawyer: [
+    { tag: 'SEO対策', text: '「地域名＋相談無料＋離婚」「地域名＋交通事故 弁護士」などの具体的なキーワードに特化したページ設計が効果的です。' },
+    { tag: 'Googleマップ', text: '弁護士事務所はGoogleマップの「Q&A」機能への回答が信頼構築に有効です。よくある相談をQ&A形式で登録しましょう。' },
+    { tag: 'コンテンツ', text: '無料相談フォームの設置と「相談の流れ」の明示で、問い合わせのハードルが大きく下がります。' }
+  ],
+  medical: [
+    { tag: 'Googleマップ', text: '医療機関はGoogleマップの「診療時間」「駐車場情報」「予約方法」を正確に登録するだけで、問い合わせ数が改善する事例が多いです。' },
+    { tag: 'SEO対策', text: '「症状名＋地域名＋クリニック」でのSEO対策が最も効果的です。症状別のコンテンツページを充実させましょう。' },
+    { tag: '口コミ対策', text: '患者満足度アンケートと連動してGoogleへの口コミ誘導を行うと、継続的に口コミが増加します。' }
+  ],
+  retail: [
+    { tag: 'EC連携', text: 'Googleマップに商品写真と価格を登録すると、「来店前に商品確認」する顧客が増え、購買率が向上します。' },
+    { tag: 'インスタ活用', text: 'Instagram Shoppingとの連携で、投稿から直接購買導線を作ることができます。月10投稿で認知度が大幅アップします。' },
+    { tag: 'SEO対策', text: '「地域名＋商品カテゴリ」のローカルSEOと、Googleショッピング広告の組み合わせが効果的です。' }
+  ],
+  manufacturing: [
+    { tag: 'SEO対策', text: '製造業は「技術名＋加工方法＋地域名」などの専門キーワードでのSEOが効果的です。技術資料のPDF公開も被リンク獲得に有効です。' },
+    { tag: 'コンテンツ', text: '製造工程動画や技術事例をサイトに掲載すると、検索からの問い合わせ品質が大幅に向上します。' },
+    { tag: 'Googleマップ', text: 'BtoB製造業でもGoogleマップ登録・口コミ管理は重要です。発注検討者が「信頼できる会社か」を確認する手段として使われています。' }
+  ],
+  other: [
+    { tag: 'Googleマップ', text: 'まずGoogleビジネスプロフィールの基本情報（営業時間・住所・電話番号・写真）を完全に埋めることが最優先です。' },
+    { tag: 'SEO対策', text: 'サイトの表示速度改善（特にモバイル）は、すべての業種でSEO順位と直帰率改善に直結します。' },
+    { tag: '口コミ対策', text: '口コミへの返信を必ず行いましょう。返信率が高い店舗はGoogleの評価アルゴリズムでも優遇されます。' }
+  ]
+};
+
+// スコアに応じたコメント
+function getScoreComment(score) {
+  if (score >= 80) return '✅ 集客基盤はしっかりできています！さらなる上位表示に向け、口コミ件数の増加とコンテンツ充実を継続しましょう。';
+  if (score >= 60) return '⚠️ 基本はできていますが、改善の余地があります。特に口コミ数・サイト表示速度・写真登録数に注力すると効果的です。';
+  if (score >= 40) return '🔴 いくつかの重要項目に課題があります。今すぐ取り組める改善アクションを優先的に実施しましょう。';
+  return '🆘 集客機会を大きく損失している可能性があります。Googleマップの基本設定とサイト速度改善から着手することをお勧めします。';
+}
+
+// メーターアニメーション
+function animateMeter(score) {
+  const totalLength = 204;
+  const arc = document.getElementById('meterArc');
+  const scoreEl = document.getElementById('totalScore');
+  let current = 0;
+  const target = Math.round((score / 100) * totalLength);
+  const duration = 1200;
+  const startTime = performance.now();
+
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const dashOffset = Math.round(eased * target);
+    arc.setAttribute('stroke-dasharray', `${dashOffset} ${totalLength}`);
+    scoreEl.textContent = Math.round(eased * score);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// カード生成
+function createCard(icon, name, value, comment, status) {
+  const statusMap = { good: ['good','✅ 良好','badge-good'], warn: ['warn','⚠️ 要改善','badge-warn'], bad: ['bad','🔴 要対応','badge-bad'] };
+  const [cls, badge, badgeCls] = statusMap[status] || statusMap['warn'];
+  return `
+    <div class="diag-card ${cls}">
+      <div class="card-header">
+        <span class="card-icon">${icon}</span>
+        <span class="card-badge ${badgeCls}">${badge}</span>
+      </div>
+      <div class="card-name">${name}</div>
+      <div class="card-value">${value}</div>
+      <div class="card-comment">${comment}</div>
+    </div>`;
+}
+
+// 提案アイテム生成
+function createProposal(num, title, desc, impact) {
+  return `
+    <div class="proposal-item">
+      <div class="proposal-num">${num}</div>
+      <div class="proposal-content">
+        <div class="title">${title}</div>
+        <div class="desc">${desc}</div>
+        <span class="impact">💡 ${impact}</span>
+      </div>
+    </div>`;
+}
+
+// 診断メイン
+async function startDiagnosis() {
+  const shopName = document.getElementById('shopName').value.trim();
+  const industry = document.getElementById('industry').value;
+  const siteUrl = document.getElementById('siteUrl').value.trim();
+  const placeQuery = document.getElementById('placeQuery').value.trim() || shopName;
+
+  const errorBox = document.getElementById('errorBox');
+  errorBox.classList.remove('show');
+
+  if (!shopName || !industry) {
+    errorBox.textContent = '店舗名と業種は必ず入力してください。';
+    errorBox.classList.add('show');
+    return;
+  }
+  if (!siteUrl && !placeQuery) {
+    errorBox.textContent = 'WebサイトURLまたはGoogleマップの店舗名を入力してください。';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  // UI切替
+  document.getElementById('btnDiagnose').disabled = true;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('resultArea').classList.remove('show');
+
+  try {
+    // Workers APIを並列で叩く
+    const [placesRes, psiRes] = await Promise.allSettled([
+      placeQuery ? fetch(`${WORKER_URL}/places?query=${encodeURIComponent(placeQuery)}`).then(r => r.json()) : Promise.resolve(null),
+      siteUrl ? fetch(`${WORKER_URL}/pagespeed?url=${encodeURIComponent(siteUrl)}`).then(r => r.json()) : Promise.resolve(null)
+    ]);
+
+    const placesData = placesRes.status === 'fulfilled' ? placesRes.value : null;
+    const psiData = psiRes.status === 'fulfilled' ? psiRes.value : null;
+
+    // 結果を描画
+    renderResult(shopName, industry, placesData, psiData);
+
+  } catch (err) {
+    errorBox.textContent = '診断中にエラーが発生しました。しばらく後でもう一度お試しください。';
+    errorBox.classList.add('show');
+  } finally {
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('btnDiagnose').disabled = false;
+  }
+}
+
+function renderResult(shopName, industry, places, psi) {
+  document.getElementById('resultShopName').textContent = shopName;
+
+  // スコア計算
+  let totalScore = 0;
+  let proposals = [];
+  let mapsCardsHTML = '';
+  let seoCardsHTML = '';
+
+  // --- Googleマップ診断 ---
+  if (places && places.result) {
+    const p = places.result;
+    const rating = p.rating || 0;
+    const reviewCount = p.user_ratings_total || 0;
+    const photos = (p.photos || []).length;
+    const hasHours = !!(p.opening_hours);
+    const hasWebsite = !!(p.website);
+
+    // 評価
+    const ratingScore = rating >= 4.0 ? 20 : rating >= 3.5 ? 12 : 5;
+    totalScore += ratingScore;
+    mapsCardsHTML += createCard('⭐', 'Googleマップ評価', `${rating.toFixed(1)} / 5.0`,
+      rating >= 4.0 ? '高評価を維持しています。引き続き口コミへの返信を忘れずに。' :
+      rating >= 3.5 ? '平均的な評価です。サービス改善と口コミ返信で4.0超えを目指しましょう。' :
+      '評価が低い状態です。口コミへの丁寧な返信と、サービス品質の見直しが急務です。',
+      rating >= 4.0 ? 'good' : rating >= 3.5 ? 'warn' : 'bad');
+
+    // 口コミ数
+    const reviewScore = reviewCount >= 50 ? 20 : reviewCount >= 20 ? 13 : reviewCount >= 5 ? 7 : 2;
+    totalScore += reviewScore;
+    mapsCardsHTML += createCard('💬', '口コミ件数', `${reviewCount} 件`,
+      reviewCount >= 50 ? '口コミが豊富で信頼性が高い状態です。' :
+      reviewCount >= 20 ? 'ある程度の口コミがあります。月5件ペースを目標に増やしましょう。' :
+      reviewCount >= 5 ? '口コミが少ない状態です。QRコードやLINEで積極的に促しましょう。' :
+      '口コミがほぼない状態です。今すぐ口コミ収集の仕組みを作りましょう。',
+      reviewCount >= 50 ? 'good' : reviewCount >= 20 ? 'warn' : 'bad');
+    if (reviewCount < 20) proposals.push(['口コミ数を増やす仕組みを作る', 'QRコードを店内に設置し、LINE公式アカウントからも口コミ依頼メッセージを配信しましょう。', '月5〜10件の口コミ増加で集客力アップ見込み']);
+
+    // 写真
+    const photoScore = photos >= 10 ? 10 : photos >= 5 ? 6 : 2;
+    totalScore += photoScore;
+    mapsCardsHTML += createCard('📸', '登録写真枚数', `${photos} 枚`,
+      photos >= 10 ? '写真が充実しています。季節ごとに更新すると効果的です。' :
+      photos >= 5 ? '写真がやや少ない状態です。10枚以上を目標に追加しましょう。' :
+      '写真が少なく、クリック率に影響しています。すぐに追加しましょう。',
+      photos >= 10 ? 'good' : photos >= 5 ? 'warn' : 'bad');
+
+    // 営業時間
+    totalScore += hasHours ? 10 : 0;
+    mapsCardsHTML += createCard('🕐', '営業時間登録', hasHours ? '登録済み' : '未登録',
+      hasHours ? '営業時間が正しく登録されています。定休日も忘れずに設定しましょう。' : '営業時間が未登録です。すぐにGoogleビジネスプロフィールから設定してください。',
+      hasHours ? 'good' : 'bad');
+    if (!hasHours) proposals.push(['営業時間を登録する', 'Googleビジネスプロフィールにログインし、営業時間・定休日を正確に登録してください。', '検索表示ランク改善・問い合わせ増加']);
+
+  } else {
+    mapsCardsHTML = `<div class="diag-card warn"><div class="card-name">Googleマップ情報</div><div class="card-value">取得できませんでした</div><div class="card-comment">店舗名を確認して再度お試しください。または、GoogleビジネスプロフィールにPlace IDを入力してください。</div></div>`;
+    totalScore += 20; // デフォルト
+  }
+
+  // --- PageSpeed診断 ---
+  if (psi && psi.lighthouseResult) {
+    const cats = psi.lighthouseResult.categories;
+    const audits = psi.lighthouseResult.audits;
+
+    const perfScore = Math.round((cats.performance?.score || 0) * 100);
+    const mobileScore = perfScore; // モバイル用として使用
+
+    // パフォーマンス
+    const perfPoints = perfScore >= 80 ? 20 : perfScore >= 50 ? 12 : 4;
+    totalScore += perfPoints;
+    seoCardsHTML += createCard('⚡', 'サイト表示速度スコア', `${perfScore} / 100`,
+      perfScore >= 80 ? '高速なサイトです。SEOランキングにプラスに働いています。' :
+      perfScore >= 50 ? '改善の余地があります。画像圧縮・キャッシュ設定を見直しましょう。' :
+      '表示速度が低速です。ユーザーの離脱率増加とSEOランク低下に直結しています。',
+      perfScore >= 80 ? 'good' : perfScore >= 50 ? 'warn' : 'bad');
+    if (perfScore < 50) proposals.push(['サイト表示速度を改善する', '画像をWebP形式に変換し、サーバーのキャッシュ設定とCDNの導入を検討してください。', 'モバイルSEO順位の改善・直帰率低下']);
+
+    // FCP
+    const fcpVal = audits['first-contentful-paint']?.displayValue || '---';
+    const fcpScore = audits['first-contentful-paint']?.score || 0;
+    seoCardsHTML += createCard('🖥️', '初期表示速度（FCP）', fcpVal,
+      fcpScore >= 0.9 ? 'ページの初期表示が高速です。' :
+      fcpScore >= 0.5 ? '初期表示がやや遅い状態です。改善を検討しましょう。' :
+      '初期表示が遅く、ユーザー体験に影響しています。',
+      fcpScore >= 0.9 ? 'good' : fcpScore >= 0.5 ? 'warn' : 'bad');
+
+    // LCP
+    const lcpVal = audits['largest-contentful-paint']?.displayValue || '---';
+    const lcpScore = audits['largest-contentful-paint']?.score || 0;
+    seoCardsHTML += createCard('📄', 'メインコンテンツ表示（LCP）', lcpVal,
+      lcpScore >= 0.9 ? 'メインコンテンツの表示が高速です。' :
+      lcpScore >= 0.5 ? 'メインコンテンツの表示がやや遅い状態です。' :
+      'メインコンテンツの表示が遅く、Googleの評価に影響しています。',
+      lcpScore >= 0.9 ? 'good' : lcpScore >= 0.5 ? 'warn' : 'bad');
+
+  } else {
+    seoCardsHTML = `<div class="diag-card warn"><div class="card-name">サイトSEO情報</div><div class="card-value">取得できませんでした</div><div class="card-comment">サイトURLを確認して再度お試しください。</div></div>`;
+    totalScore += 20;
+  }
+
+  // スコア上限
+  totalScore = Math.min(totalScore, 100);
+
+  // 業種別アドバイス
+  const tips = industryAdvice[industry] || industryAdvice['other'];
+  let tipsHTML = tips.map(t => `
+    <div class="industry-tip">
+      <div class="tip-tag">${t.tag}</div><br>
+      ${t.text}
+    </div>`).join('');
+
+  // デフォルト提案（スコアが低い場合に追加）
+  if (proposals.length === 0) {
+    proposals.push(['現状を維持しつつコンテンツを充実させる', '定期的な写真追加・口コミ返信・サイト更新を継続することで、さらなる上位表示が見込めます。', '継続改善による安定した集客維持']);
+  }
+  // 提案は最大3件
+  const proposalHTML = proposals.slice(0,3).map((p,i) => createProposal(i+1, p[0], p[1], p[2])).join('');
+
+  // 描画
+  document.getElementById('mapsCards').innerHTML = mapsCardsHTML;
+  document.getElementById('seoCards').innerHTML = seoCardsHTML;
+  document.getElementById('industryTips').innerHTML = tipsHTML;
+  document.getElementById('proposalList').innerHTML = proposalHTML;
+  document.getElementById('scoreComment').textContent = getScoreComment(totalScore);
+
+  // 結果表示 & メーターアニメ
+  document.getElementById('resultArea').classList.add('show');
+  setTimeout(() => animateMeter(totalScore), 100);
+
+  // スクロール
+  document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
