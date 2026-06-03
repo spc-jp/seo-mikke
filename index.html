@@ -41,9 +41,9 @@
     background: var(--navy);
     padding: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
-  header::before {
+  header::before { display:none;
     content: '';
     position: absolute;
     top: -40px; right: -60px;
@@ -126,7 +126,7 @@
     border: 1px solid var(--gray-200);
     min-width: 180px;
     z-index: 100;
-    overflow: hidden;
+    overflow: visible;
   }
   .gear-menu.show { display: block; }
   .gear-menu-item {
@@ -359,7 +359,7 @@
     cursor: pointer;
     transition: all 0.25s;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     margin-top: 8px;
   }
   .btn-diagnose::after {
@@ -413,7 +413,7 @@
     padding: 36px 32px;
     margin-bottom: 24px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: var(--shadow-lg);
   }
   .score-header::before {
@@ -486,7 +486,7 @@
     box-shadow: var(--shadow);
     transition: transform 0.2s;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
   .diag-card:hover { transform: translateY(-3px); }
   .diag-card.good { border-color: rgba(34,168,110,0.4); }
@@ -515,7 +515,7 @@
     border: 2px solid var(--gold-pale);
     margin-bottom: 24px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
   .proposal-box::before { content: '💡'; position: absolute; top: -10px; right: 20px; font-size: 3rem; opacity: 0.1; }
 
