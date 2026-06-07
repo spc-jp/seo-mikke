@@ -36,468 +36,299 @@
     --shadow: 0 4px 24px rgba(34,54,112,0.12);
     --shadow-lg: 0 8px 40px rgba(34,54,112,0.18);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-700);
-    min-height: 100vh;
-  }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--gray-100); color: var(--gray-700); min-height: 100vh; }
 
   /* ヘッダー */
-  header {
-    background: var(--navy);
-    padding: 0;
-    position: relative;
-    overflow: visible;
-  }
-  header::before { display:none;
-    content: '';
-    position: absolute;
-    top: -40px; right: -60px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(208,169,0,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .header-inner {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 20px 20px 18px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .header-icon {
-    width: 52px; height: 52px;
-    background: var(--gold);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
-    flex-shrink: 0;
-    box-shadow: 0 2px 12px rgba(208,169,0,0.4);
-  }
+  header { background: var(--navy); padding: 0; position: relative; overflow: visible; }
+  header::before { content: ''; position: absolute; top: -40px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(208,169,0,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+  .header-inner { max-width: 860px; margin: 0 auto; padding: 20px 20px 18px; display: flex; align-items: center; gap: 16px; }
+  .header-icon { width: 52px; height: 52px; background: var(--gold); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 2px 12px rgba(208,169,0,0.4); }
   .header-text { flex: 1; }
-  .header-text h1 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--white);
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-  }
-  .header-text p {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.65);
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-  }
-  .header-btns {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-    z-index: 10;
-  }
-  .btn-header {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: var(--white);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 0.82rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .btn-header:hover {
-    background: rgba(255,255,255,0.22);
-    border-color: rgba(255,255,255,0.4);
-  }
-  .btn-header-gear {
-    padding: 8px 10px;
-    font-size: 1rem;
-    position: relative;
-  }
-  .gear-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--gray-200);
-    min-width: 180px;
-    z-index: 100;
-    overflow: visible;
-  }
+  .header-text h1 { font-family: 'Noto Serif JP', serif; font-size: 1.5rem; font-weight: 900; color: var(--white); letter-spacing: 0.02em; line-height: 1.2; }
+  .header-text p { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 4px; letter-spacing: 0.05em; }
+  .header-btns { display: flex; align-items: center; gap: 8px; position: relative; z-index: 200; }
+  .btn-header { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: var(--white); border-radius: 10px; padding: 8px 14px; font-size: 0.82rem; font-family: 'Noto Sans JP', sans-serif; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; white-space: nowrap; }
+  .btn-header:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); }
+  .btn-header-gear { padding: 8px 10px; font-size: 1rem; position: relative; }
+  .gear-wrap { position: relative; }
+  .gear-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: var(--white); border-radius: 12px; box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); min-width: 180px; z-index: 300; overflow: hidden; }
   .gear-menu.show { display: block; }
-  .gear-menu-item {
-    padding: 12px 16px;
-    font-size: 0.85rem;
-    color: var(--gray-700);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.15s;
-    border-bottom: 1px solid var(--gray-200);
-  }
+  .gear-menu-item { padding: 12px 16px; font-size: 0.85rem; color: var(--gray-700); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; border-bottom: 1px solid var(--gray-200); }
   .gear-menu-item:last-child { border-bottom: none; }
   .gear-menu-item:hover { background: var(--gray-100); }
-
-  .gold-bar {
-    height: 4px;
-    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 60%, transparent 100%);
-  }
+  .gold-bar { height: 4px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 60%, transparent 100%); }
 
   /* モーダル共通 */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.show { display: flex; }
-  .modal {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 32px;
-    max-width: 560px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: var(--shadow-lg);
-    animation: fadeUp 0.3s ease;
-  }
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .modal-header h3 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--navy);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .modal-close {
-    background: var(--gray-200);
-    border: none;
-    border-radius: 50%;
-    width: 32px; height: 32px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--gray-700);
-    transition: background 0.2s;
-  }
+  .modal { background: var(--white); border-radius: 20px; padding: 32px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: fadeUp 0.3s ease; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .modal-header h3 { font-family: 'Noto Serif JP', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+  .modal-close { background: var(--gray-200); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; color: var(--gray-700); transition: background 0.2s; }
   .modal-close:hover { background: var(--gray-500); color: var(--white); }
 
   /* 使い方モーダル */
-  .howto-section {
-    margin-bottom: 20px;
-  }
-  .howto-section h4 {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--gold-pale);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .howto-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .howto-list li {
-    font-size: 0.83rem;
-    color: var(--gray-700);
-    line-height: 1.6;
-    padding-left: 20px;
-    position: relative;
-  }
-  .howto-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--green);
-    font-weight: 700;
-  }
-  .howto-badge {
-    display: inline-block;
-    background: var(--navy);
-    color: var(--gold);
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-right: 4px;
-  }
+  .howto-section { margin-bottom: 20px; }
+  .howto-section h4 { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--gold-pale); display: flex; align-items: center; gap: 6px; }
+  .howto-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .howto-list li { font-size: 0.83rem; color: var(--gray-700); line-height: 1.6; padding-left: 20px; position: relative; }
+  .howto-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .howto-badge { display: inline-block; background: var(--navy); color: var(--gold); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
 
   /* デモ確認モーダル */
-  .demo-info {
-    background: var(--gray-100);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  .demo-info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--gray-200);
-    font-size: 0.83rem;
-  }
+  .demo-info { background: var(--gray-100); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .demo-info-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--gray-200); font-size: 0.83rem; }
   .demo-info-row:last-child { border-bottom: none; }
-  .demo-info-label {
-    color: var(--gray-500);
-    font-weight: 500;
-  }
-  .demo-info-value {
-    color: var(--navy);
-    font-weight: 700;
-  }
+  .demo-info-label { color: var(--gray-500); font-weight: 500; }
+  .demo-info-value { color: var(--navy); font-weight: 700; }
 
   /* メインコンテナ */
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-  }
+  .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; }
 
   /* 入力カード */
-  .input-card {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 32px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--gray-200);
-    margin-bottom: 28px;
-  }
-  .input-card h2 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .input-card h2::before {
-    content: '';
-    display: block;
-    width: 4px; height: 20px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  @media(max-width: 600px) {
-    .form-row { grid-template-columns: 1fr; }
-    .header-text h1 { font-size: 1.1rem; }
-    .btn-header span { display: none; }
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .form-group label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: 0.04em;
-  }
-  .form-group input,
-  .form-group select {
-    padding: 12px 14px;
-    border: 2px solid var(--gray-200);
-    border-radius: 10px;
-    font-size: 0.92rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--gray-700);
-    background: var(--white);
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .form-group input:focus,
-  .form-group select:focus { border-color: var(--navy); }
+  .input-card { background: var(--white); border-radius: 18px; padding: 32px; box-shadow: var(--shadow); border: 1px solid var(--gray-200); margin-bottom: 28px; transition: box-shadow 0.3s; }
+  .input-card h2 { font-family: 'Noto Serif JP', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .input-card h2::before { content: ''; display: block; width: 4px; height: 20px; background: var(--gold); border-radius: 2px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media(max-width:600px) { .form-row { grid-template-columns: 1fr; } .header-text h1 { font-size: 1.1rem; } .btn-header span { display: none; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 0.8rem; font-weight: 700; color: var(--navy); letter-spacing: 0.04em; }
+  .form-group input, .form-group select { padding: 12px 14px; border: 2px solid var(--gray-200); border-radius: 10px; font-size: 0.92rem; font-family: 'Noto Sans JP', sans-serif; color: var(--gray-700); background: var(--white); transition: border-color 0.2s; outline: none; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--navy); }
   .form-group input::placeholder { color: var(--gray-500); font-size: 0.85rem; }
-
   .form-full { margin-bottom: 16px; }
-
-  .btn-diagnose {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    color: var(--white);
-    border: none;
-    border-radius: 12px;
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: all 0.25s;
-    position: relative;
-    overflow: visible;
-    margin-top: 8px;
-  }
-  .btn-diagnose::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-    transition: left 0.4s;
-  }
+  .btn-diagnose { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white); border: none; border-radius: 12px; font-family: 'Noto Serif JP', serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.08em; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; margin-top: 8px; }
+  .btn-diagnose::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent); transition: left 0.4s; }
   .btn-diagnose:hover::after { left: 100%; }
   .btn-diagnose:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(34,54,112,0.35); }
   .btn-diagnose:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-  .loading { display: none; text-align: center; padding: 48px 20px; }
-  .loading.show { display: block; }
-  .spinner {
-    width: 52px; height: 52px;
-    border: 4px solid var(--gray-200);
-    border-top-color: var(--navy);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-    margin: 0 auto 16px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading p { color: var(--navy); font-size: 0.9rem; font-weight: 500; }
-
-  .error-box {
-    display: none;
-    background: #fff0f0;
-    border: 2px solid var(--red);
-    border-radius: 12px;
-    padding: 16px 20px;
-    color: var(--red);
-    font-size: 0.88rem;
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
+  .error-box { display: none; background: #fff0f0; border: 2px solid var(--red); border-radius: 12px; padding: 16px 20px; color: var(--red); font-size: 0.88rem; margin-bottom: 20px; font-weight: 500; }
   .error-box.show { display: block; }
+  .note-text { font-size: 0.76rem; color: var(--gray-500); margin-top: 8px; line-height: 1.5; }
 
-  .result-area { display: none; animation: fadeUp 0.5s ease; }
-  .result-area.show { display: block; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* ═══════════════════════════════════
+     診断アニメーション
+  ═══════════════════════════════════ */
+  .loading { display: none; }
+  .loading.show { display: block; }
 
-  .score-header {
-    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+  .diag-anim-wrap {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
     border-radius: 20px;
-    padding: 36px 32px;
-    margin-bottom: 24px;
+    padding: 40px 32px;
+    margin-bottom: 28px;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     box-shadow: var(--shadow-lg);
   }
-  .score-header::before {
+  /* 背景パーティクル */
+  .diag-anim-wrap::before {
     content: '';
     position: absolute;
-    bottom: -30px; right: -30px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(208,169,0,0.2) 0%, transparent 70%);
+    top: -60px; right: -60px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(208,169,0,0.18) 0%, transparent 70%);
     border-radius: 50%;
+    animation: pulse-glow 2s ease-in-out infinite;
   }
-  .score-header-top {
+  .diag-anim-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(45,72,144,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-glow 2.5s ease-in-out infinite reverse;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  /* メインアイコン */
+  .diag-icon-wrap {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .diag-main-icon {
+    display: inline-block;
+    font-size: 3.5rem;
+    animation: icon-bounce 1s ease-in-out infinite alternate;
+    filter: drop-shadow(0 4px 16px rgba(208,169,0,0.5));
+  }
+  @keyframes icon-bounce {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-8px) scale(1.05); }
+  }
+  .diag-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--white);
+    margin-top: 12px;
+    letter-spacing: 0.06em;
+  }
+  .diag-subtitle {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* プログレスバー */
+  .diag-progress-wrap {
+    margin: 24px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .diag-progress-bar-bg {
+    background: rgba(255,255,255,0.15);
+    border-radius: 100px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .diag-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 12px rgba(208,169,0,0.6);
+  }
+  .diag-progress-pct {
+    text-align: right;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 6px;
+  }
+
+  /* チェック項目リスト */
+  .diag-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .diag-step {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.4s ease;
+    opacity: 0.4;
   }
+  .diag-step.active {
+    opacity: 1;
+    background: rgba(255,255,255,0.13);
+    border-color: rgba(208,169,0,0.4);
+    box-shadow: 0 0 16px rgba(208,169,0,0.15);
+  }
+  .diag-step.done {
+    opacity: 1;
+    background: rgba(34,168,110,0.12);
+    border-color: rgba(34,168,110,0.4);
+  }
+  .diag-step-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: all 0.4s ease;
+  }
+  .diag-step.active .diag-step-icon {
+    background: rgba(208,169,0,0.2);
+    animation: spin-icon 1s linear infinite;
+  }
+  .diag-step.done .diag-step-icon {
+    background: rgba(34,168,110,0.2);
+    animation: none;
+  }
+  @keyframes spin-icon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .diag-step-text { flex: 1; }
+  .diag-step-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+  }
+  .diag-step-desc {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+  }
+  .diag-step-status {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    transition: all 0.4s;
+  }
+  .diag-step.active .diag-step-status { color: var(--gold); }
+  .diag-step.done .diag-step-status { color: var(--green); }
+
+  /* 完了演出 */
+  .diag-complete {
+    display: none;
+    text-align: center;
+    padding: 16px 0 0;
+    position: relative;
+    z-index: 1;
+  }
+  .diag-complete.show { display: block; animation: fadeUp 0.5s ease; }
+  .diag-complete-score {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(208,169,0,0.5);
+    animation: score-pop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes score-pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .diag-complete-label {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  /* 結果エリア */
+  .result-area { display: none; animation: fadeUp 0.5s ease; }
+  .result-area.show { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .score-header { background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%); border-radius: 20px; padding: 36px 32px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+  .score-header::before { content: ''; position: absolute; bottom: -30px; right: -30px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(208,169,0,0.2) 0%, transparent 70%); border-radius: 50%; }
+  .score-header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
   .shop-name-result { color: var(--white); }
   .shop-name-result .label { font-size: 0.75rem; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; margin-bottom: 4px; }
   .shop-name-result .name { font-family: 'Noto Serif JP', serif; font-size: 1.4rem; font-weight: 700; }
-
   .score-meter { text-align: center; position: relative; z-index: 1; }
   .meter-svg { display: block; width: 160px; height: 90px; margin: 0 auto; }
   .score-value { font-family: 'Noto Serif JP', serif; font-size: 2.6rem; font-weight: 900; color: var(--gold); line-height: 1; margin-top: -4px; }
   .score-label { font-size: 0.75rem; color: rgba(255,255,255,0.7); letter-spacing: 0.08em; margin-top: 2px; }
+  .score-comment { margin-top: 20px; background: rgba(255,255,255,0.1); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 12px 16px; color: rgba(255,255,255,0.9); font-size: 0.88rem; line-height: 1.6; position: relative; z-index: 1; }
 
-  .score-comment {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.1);
-    border-left: 3px solid var(--gold);
-    border-radius: 0 10px 10px 0;
-    padding: 12px 16px;
-    color: rgba(255,255,255,0.9);
-    font-size: 0.88rem;
-    line-height: 1.6;
-    position: relative;
-    z-index: 1;
-  }
+  .section-title { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; display: block; width: 4px; height: 18px; background: var(--gold); border-radius: 2px; }
 
-  .section-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::before {
-    content: '';
-    display: block;
-    width: 4px; height: 18px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-
-  .diag-card {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 20px;
-    border: 2px solid var(--gray-200);
-    box-shadow: var(--shadow);
-    transition: transform 0.2s;
-    position: relative;
-    overflow: visible;
-  }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .diag-card { background: var(--white); border-radius: 14px; padding: 20px; border: 2px solid var(--gray-200); box-shadow: var(--shadow); transition: transform 0.2s; position: relative; overflow: hidden; }
   .diag-card:hover { transform: translateY(-3px); }
   .diag-card.good { border-color: rgba(34,168,110,0.4); }
   .diag-card.warn { border-color: rgba(240,128,48,0.4); }
@@ -506,7 +337,6 @@
   .diag-card.good::before { background: var(--green); }
   .diag-card.warn::before { background: var(--orange); }
   .diag-card.bad::before  { background: var(--red); }
-
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .card-icon { font-size: 1.4rem; }
   .card-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.04em; }
@@ -517,80 +347,24 @@
   .card-value { font-family: 'Noto Serif JP', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
   .card-comment { font-size: 0.8rem; color: var(--gray-700); line-height: 1.55; }
 
-  .proposal-box {
-    background: var(--white);
-    border-radius: 18px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-    border: 2px solid var(--gold-pale);
-    margin-bottom: 24px;
-    position: relative;
-    overflow: visible;
-  }
+  .proposal-box { background: var(--white); border-radius: 18px; padding: 28px; box-shadow: var(--shadow); border: 2px solid var(--gold-pale); margin-bottom: 24px; position: relative; overflow: hidden; }
   .proposal-box::before { content: '💡'; position: absolute; top: -10px; right: 20px; font-size: 3rem; opacity: 0.1; }
-
   .proposal-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--gray-200); }
   .proposal-item:last-child { border-bottom: none; padding-bottom: 0; }
   .proposal-item:first-child { padding-top: 0; }
-  .proposal-num {
-    width: 28px; height: 28px;
-    background: var(--navy);
-    color: var(--gold);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Noto Serif JP', serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+  .proposal-num { width: 28px; height: 28px; background: var(--navy); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Noto Serif JP', serif; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
   .proposal-content .title { font-weight: 700; font-size: 0.92rem; color: var(--navy); margin-bottom: 4px; }
   .proposal-content .desc { font-size: 0.82rem; color: var(--gray-700); line-height: 1.6; }
-  .proposal-content .impact {
-    display: inline-block;
-    margin-top: 6px;
-    background: var(--gold-pale);
-    color: #8a6e00;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 1px solid rgba(208,169,0,0.4);
-  }
+  .proposal-content .impact { display: inline-block; margin-top: 6px; background: var(--gold-pale); color: #8a6e00; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(208,169,0,0.4); }
 
-  .industry-box {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    border-radius: 18px;
-    padding: 24px 28px;
-    margin-bottom: 24px;
-    color: var(--white);
-    box-shadow: var(--shadow-lg);
-  }
+  .industry-box { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); border-radius: 18px; padding: 24px 28px; margin-bottom: 24px; color: var(--white); box-shadow: var(--shadow-lg); }
   .industry-box .section-title { color: var(--gold); margin-bottom: 16px; }
   .industry-box .section-title::before { background: var(--gold); }
   .industry-tips { display: flex; flex-direction: column; gap: 10px; }
-  .industry-tip {
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    border-left: 3px solid var(--gold);
-  }
-  .tip-tag {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--navy);
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    letter-spacing: 0.04em;
-  }
+  .industry-tip { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 14px; font-size: 0.85rem; line-height: 1.6; border-left: 3px solid var(--gold); }
+  .tip-tag { display: inline-block; background: var(--gold); color: var(--navy); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-bottom: 4px; letter-spacing: 0.04em; }
 
   footer { text-align: center; padding: 32px 20px; color: var(--gray-500); font-size: 0.76rem; letter-spacing: 0.04em; }
-  .note-text { font-size: 0.76rem; color: var(--gray-500); margin-top: 8px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -602,7 +376,6 @@
       <h3>📖 SEOみっけ｜使い方ガイド</h3>
       <button class="modal-close" onclick="closeModal('howtoModal')">✕</button>
     </div>
-
     <div class="howto-section">
       <h4>🎯 このアプリでできること</h4>
       <ul class="howto-list">
@@ -613,7 +386,6 @@
         <li>診断結果は100点満点のスコアで直感的に把握できます</li>
       </ul>
     </div>
-
     <div class="howto-section">
       <h4>📝 入力項目の説明</h4>
       <ul class="howto-list">
@@ -623,7 +395,6 @@
         <li><span class="howto-badge">マップ店舗名</span>Googleマップの検索名が店舗名と異なる場合に入力してください（任意）</li>
       </ul>
     </div>
-
     <div class="howto-section">
       <h4>📊 診断結果の見方</h4>
       <ul class="howto-list">
@@ -632,10 +403,8 @@
         <li><span class="howto-badge">⚠️ 要改善</span>改善余地あり。優先度を決めて取り組みましょう</li>
         <li><span class="howto-badge">🔴 要対応</span>集客機会を損失している可能性があります。早急に対応を</li>
         <li>診断結果の下に「優先改善アクション」が最大3件表示されます</li>
-        <li>業種別アドバイスには具体的な数値目標と成功事例が含まれています</li>
       </ul>
     </div>
-
     <div class="howto-section">
       <h4>💡 活用シーン</h4>
       <ul class="howto-list">
@@ -652,28 +421,16 @@
 <div class="modal-overlay" id="demoCheckModal">
   <div class="modal">
     <div class="modal-header">
-      <h3>📋 デモデータ確認</h3>
+      <h3>📋 入力内容の確認</h3>
       <button class="modal-close" onclick="closeModal('demoCheckModal')">✕</button>
     </div>
-    <div class="demo-info" id="demoInfoContent">
-      <div class="demo-info-row">
-        <span class="demo-info-label">店舗名</span>
-        <span class="demo-info-value" id="demoShopName">未入力</span>
-      </div>
-      <div class="demo-info-row">
-        <span class="demo-info-label">業種</span>
-        <span class="demo-info-value" id="demoIndustry">未選択</span>
-      </div>
-      <div class="demo-info-row">
-        <span class="demo-info-label">サイトURL</span>
-        <span class="demo-info-value" id="demoSiteUrl">未入力</span>
-      </div>
-      <div class="demo-info-row">
-        <span class="demo-info-label">マップ店舗名</span>
-        <span class="demo-info-value" id="demoPlaceQuery">未入力</span>
-      </div>
+    <div class="demo-info">
+      <div class="demo-info-row"><span class="demo-info-label">店舗名</span><span class="demo-info-value" id="demoShopName">未入力</span></div>
+      <div class="demo-info-row"><span class="demo-info-label">業種</span><span class="demo-info-value" id="demoIndustry">未選択</span></div>
+      <div class="demo-info-row"><span class="demo-info-label">サイトURL</span><span class="demo-info-value" id="demoSiteUrl">未入力</span></div>
+      <div class="demo-info-row"><span class="demo-info-label">マップ店舗名</span><span class="demo-info-value" id="demoPlaceQuery">未入力</span></div>
     </div>
-    <p style="font-size:0.8rem;color:var(--gray-500);line-height:1.6;">上記の内容で診断を実行します。内容を確認して「診断開始」ボタンを押してください。</p>
+    <p style="font-size:0.8rem;color:var(--gray-500);line-height:1.6;">上記の内容で診断を実行します。確認して「診断開始」を押してください。</p>
     <button class="btn-diagnose" style="margin-top:16px;" onclick="closeModal('demoCheckModal');startDiagnosis();">🔍 この内容で診断する</button>
   </div>
 </div>
@@ -686,10 +443,8 @@
       <p>Googleマップ ＋ サイト速度 を一発診断 ✨</p>
     </div>
     <div class="header-btns">
-      <button class="btn-header" onclick="openModal('howtoModal')">
-        📖 <span>使い方</span>
-      </button>
-      <div style="position:relative;">
+      <button class="btn-header" onclick="openModal('howtoModal')">📖 <span>使い方</span></button>
+      <div class="gear-wrap">
         <button class="btn-header btn-header-gear" onclick="toggleGearMenu()" id="gearBtn">⚙️</button>
         <div class="gear-menu" id="gearMenu">
           <div class="gear-menu-item" onclick="loadDemoData()">🎬 デモデータを入力</div>
@@ -704,9 +459,9 @@
 
 <div class="container">
 
-  <div class="input-card">
+  <!-- 入力カード -->
+  <div class="input-card" id="inputCard">
     <h2>店舗・サイト情報を入力</h2>
-
     <div class="form-row">
       <div class="form-group">
         <label>🏪 店舗名・施設名</label>
@@ -727,7 +482,6 @@
         </select>
       </div>
     </div>
-
     <div class="form-row form-full">
       <div class="form-group">
         <label>🌐 WebサイトURL（SEO診断用）</label>
@@ -738,21 +492,74 @@
         <input type="text" id="placeQuery" placeholder="例：カフェ山田 新宿店">
       </div>
     </div>
-
     <p class="note-text">※ Googleマップ診断にはPlace IDが必要です。店舗名で検索して自動取得します。<br>※ サイトURL診断はPageSpeed Insights APIを使用します（無料）。</p>
-
     <div class="error-box" id="errorBox"></div>
-
-    <button class="btn-diagnose" id="btnDiagnose" onclick="startDiagnosis()">
-      🔍 集客力を診断する
-    </button>
+    <button class="btn-diagnose" id="btnDiagnose" onclick="startDiagnosis()">🔍 集客力を診断する</button>
   </div>
 
+  <!-- ローディング（診断アニメーション） -->
   <div class="loading" id="loading">
-    <div class="spinner"></div>
-    <p>診断中です。少々お待ちください…✨</p>
+    <div class="diag-anim-wrap">
+      <!-- メインアイコン -->
+      <div class="diag-icon-wrap">
+        <div class="diag-main-icon" id="diagMainIcon">🔍</div>
+        <div class="diag-title" id="diagTitle">集客力を診断しています</div>
+        <div class="diag-subtitle" id="diagSubtitle">データを取得中です。少々お待ちください…</div>
+      </div>
+
+      <!-- プログレスバー -->
+      <div class="diag-progress-wrap">
+        <div class="diag-progress-bar-bg">
+          <div class="diag-progress-bar" id="diagProgressBar"></div>
+        </div>
+        <div class="diag-progress-pct" id="diagProgressPct">0%</div>
+      </div>
+
+      <!-- ステップリスト -->
+      <div class="diag-steps">
+        <div class="diag-step" id="step1">
+          <div class="diag-step-icon">📍</div>
+          <div class="diag-step-text">
+            <div class="diag-step-label">Googleマップ情報を取得</div>
+            <div class="diag-step-desc">口コミ数・評価・写真・営業時間をスキャン</div>
+          </div>
+          <div class="diag-step-status" id="step1status">待機中</div>
+        </div>
+        <div class="diag-step" id="step2">
+          <div class="diag-step-icon">⭐</div>
+          <div class="diag-step-text">
+            <div class="diag-step-label">口コミ・評価を分析</div>
+            <div class="diag-step-desc">評価スコアと口コミ件数を集計</div>
+          </div>
+          <div class="diag-step-status" id="step2status">待機中</div>
+        </div>
+        <div class="diag-step" id="step3">
+          <div class="diag-step-icon">⚡</div>
+          <div class="diag-step-text">
+            <div class="diag-step-label">サイト表示速度を計測</div>
+            <div class="diag-step-desc">PageSpeed InsightsでSEOスコアを取得</div>
+          </div>
+          <div class="diag-step-status" id="step3status">待機中</div>
+        </div>
+        <div class="diag-step" id="step4">
+          <div class="diag-step-icon">🏆</div>
+          <div class="diag-step-text">
+            <div class="diag-step-label">集客力スコアを算出</div>
+            <div class="diag-step-desc">全データを総合して100点満点でスコア化</div>
+          </div>
+          <div class="diag-step-status" id="step4status">待機中</div>
+        </div>
+      </div>
+
+      <!-- 完了表示 -->
+      <div class="diag-complete" id="diagComplete">
+        <div class="diag-complete-score" id="diagCompleteScore">--</div>
+        <div class="diag-complete-label">/ 100点　診断完了！</div>
+      </div>
+    </div>
   </div>
 
+  <!-- 結果エリア -->
   <div class="result-area" id="resultArea">
     <div class="score-header">
       <div class="score-header-top">
@@ -771,23 +578,20 @@
       </div>
       <div class="score-comment" id="scoreComment">診断結果をロード中...</div>
     </div>
-
     <div class="section-title">📍 Googleビジネスプロフィール診断</div>
     <div class="cards-grid" id="mapsCards"></div>
-
     <div class="section-title">⚡ サイトSEO・表示速度診断</div>
     <div class="cards-grid" id="seoCards"></div>
-
-    <div class="industry-box" id="industryBox">
+    <div class="industry-box">
       <div class="section-title">🎯 業種別・集客アップ提案</div>
       <div class="industry-tips" id="industryTips"></div>
     </div>
-
     <div class="proposal-box">
       <div class="section-title">🚀 優先改善アクション</div>
       <div id="proposalList"></div>
     </div>
   </div>
+
 </div>
 
 <footer>
@@ -798,7 +602,6 @@
 <script>
 const WORKER_URL = 'https://seo-mikke.yymmatsu.workers.dev';
 
-// デモデータ
 const DEMO_DATA = {
   shopName: 'スターバックス コーヒー 新宿新南口店',
   industry: 'restaurant',
@@ -817,68 +620,6 @@ const industryLabels = {
   other: 'その他'
 };
 
-// モーダル制御
-function openModal(id) {
-  document.getElementById(id).classList.add('show');
-  closeGearMenu();
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-}
-
-// ギアメニュー
-function toggleGearMenu() {
-  document.getElementById('gearMenu').classList.toggle('show');
-}
-function closeGearMenu() {
-  document.getElementById('gearMenu').classList.remove('show');
-}
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#gearBtn') && !e.target.closest('#gearMenu')) {
-    closeGearMenu();
-  }
-});
-
-// デモデータ投入
-function loadDemoData() {
-  document.getElementById('shopName').value = DEMO_DATA.shopName;
-  document.getElementById('industry').value = DEMO_DATA.industry;
-  document.getElementById('siteUrl').value = DEMO_DATA.siteUrl;
-  document.getElementById('placeQuery').value = DEMO_DATA.placeQuery;
-  closeGearMenu();
-  // 軽くフラッシュして入力完了を知らせる
-  const card = document.querySelector('.input-card');
-  card.style.transition = 'box-shadow 0.3s';
-  card.style.boxShadow = '0 0 0 3px rgba(208,169,0,0.5)';
-  setTimeout(() => { card.style.boxShadow = ''; }, 800);
-}
-
-// データクリア
-function clearDemoData() {
-  document.getElementById('shopName').value = '';
-  document.getElementById('industry').value = '';
-  document.getElementById('siteUrl').value = '';
-  document.getElementById('placeQuery').value = '';
-  document.getElementById('resultArea').classList.remove('show');
-  document.getElementById('errorBox').classList.remove('show');
-  closeGearMenu();
-}
-
-// 入力内容確認
-function showDemoCheck() {
-  const shopName = document.getElementById('shopName').value || '未入力';
-  const industry = document.getElementById('industry').value;
-  const siteUrl = document.getElementById('siteUrl').value || '未入力';
-  const placeQuery = document.getElementById('placeQuery').value || '未入力';
-
-  document.getElementById('demoShopName').textContent = shopName;
-  document.getElementById('demoIndustry').textContent = industry ? industryLabels[industry] : '未選択';
-  document.getElementById('demoSiteUrl').textContent = siteUrl;
-  document.getElementById('demoPlaceQuery').textContent = placeQuery;
-  openModal('demoCheckModal');
-}
-
-// 業種別アドバイスデータ
 const industryAdvice = {
   restaurant: [
     { tag: 'インスタ活用', text: '料理写真をInstagramに週3投稿すると、Googleマップへの流入が平均30%アップする事例が多数あります。ハッシュタグは「#エリア名ランチ」が特に効果的です。' },
@@ -922,19 +663,107 @@ const industryAdvice = {
   ]
 };
 
-function getScoreComment(score) {
-  if (score >= 80) return '✅ 集客基盤はしっかりできています！さらなる上位表示に向け、口コミ件数の増加とコンテンツ充実を継続しましょう。';
-  if (score >= 60) return '⚠️ 基本はできていますが、改善の余地があります。特に口コミ数・サイト表示速度・写真登録数に注力すると効果的です。';
-  if (score >= 40) return '🔴 いくつかの重要項目に課題があります。今すぐ取り組める改善アクションを優先的に実施しましょう。';
-  return '🆘 集客機会を大きく損失している可能性があります。Googleマップの基本設定とサイト速度改善から着手することをお勧めします。';
+// ═══ モーダル制御 ═══
+function openModal(id) { document.getElementById(id).classList.add('show'); closeGearMenu(); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function toggleGearMenu() { document.getElementById('gearMenu').classList.toggle('show'); }
+function closeGearMenu() { document.getElementById('gearMenu').classList.remove('show'); }
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#gearBtn') && !e.target.closest('#gearMenu')) closeGearMenu();
+});
+
+// ═══ デモデータ ═══
+function loadDemoData() {
+  document.getElementById('shopName').value = DEMO_DATA.shopName;
+  document.getElementById('industry').value = DEMO_DATA.industry;
+  document.getElementById('siteUrl').value = DEMO_DATA.siteUrl;
+  document.getElementById('placeQuery').value = DEMO_DATA.placeQuery;
+  closeGearMenu();
+  const card = document.getElementById('inputCard');
+  card.style.boxShadow = '0 0 0 3px rgba(208,169,0,0.5)';
+  setTimeout(() => { card.style.boxShadow = ''; }, 800);
+}
+function clearDemoData() {
+  document.getElementById('shopName').value = '';
+  document.getElementById('industry').value = '';
+  document.getElementById('siteUrl').value = '';
+  document.getElementById('placeQuery').value = '';
+  document.getElementById('resultArea').classList.remove('show');
+  document.getElementById('errorBox').classList.remove('show');
+  closeGearMenu();
+}
+function showDemoCheck() {
+  const industry = document.getElementById('industry').value;
+  document.getElementById('demoShopName').textContent = document.getElementById('shopName').value || '未入力';
+  document.getElementById('demoIndustry').textContent = industry ? industryLabels[industry] : '未選択';
+  document.getElementById('demoSiteUrl').textContent = document.getElementById('siteUrl').value || '未入力';
+  document.getElementById('demoPlaceQuery').textContent = document.getElementById('placeQuery').value || '未入力';
+  openModal('demoCheckModal');
 }
 
+// ═══ 診断アニメーション制御 ═══
+let animTimer = null;
+
+function setStep(stepNum, status) {
+  const el = document.getElementById('step' + stepNum);
+  const st = document.getElementById('step' + stepNum + 'status');
+  el.classList.remove('active', 'done');
+  if (status === 'active') {
+    el.classList.add('active');
+    st.textContent = '取得中…';
+  } else if (status === 'done') {
+    el.classList.add('done');
+    st.textContent = '✅ 完了';
+    el.querySelector('.diag-step-icon').textContent =
+      stepNum === 1 ? '📍' : stepNum === 2 ? '⭐' : stepNum === 3 ? '⚡' : '🏆';
+  }
+}
+
+function setProgress(pct) {
+  document.getElementById('diagProgressBar').style.width = pct + '%';
+  document.getElementById('diagProgressPct').textContent = pct + '%';
+}
+
+function startLoadingAnim() {
+  // リセット
+  [1,2,3,4].forEach(i => {
+    const el = document.getElementById('step' + i);
+    el.classList.remove('active','done');
+    document.getElementById('step' + i + 'status').textContent = '待機中';
+  });
+  document.getElementById('diagComplete').classList.remove('show');
+  document.getElementById('diagTitle').textContent = '集客力を診断しています';
+  document.getElementById('diagSubtitle').textContent = 'データを取得中です。少々お待ちください…';
+  document.getElementById('diagMainIcon').textContent = '🔍';
+  setProgress(0);
+
+  // アニメーション順番
+  setTimeout(() => { setStep(1,'active'); setProgress(15); }, 300);
+  setTimeout(() => { setStep(1,'done'); setStep(2,'active'); setProgress(35); }, 1800);
+  setTimeout(() => { setStep(2,'done'); setStep(3,'active'); setProgress(55);
+    document.getElementById('diagTitle').textContent = 'サイト速度を計測中…';
+  }, 3200);
+  setTimeout(() => { setStep(3,'done'); setStep(4,'active'); setProgress(80); }, 5500);
+  setTimeout(() => { setProgress(95); }, 6500);
+}
+
+function finishLoadingAnim(score) {
+  setStep(4,'done');
+  setProgress(100);
+  document.getElementById('diagTitle').textContent = '診断完了！';
+  document.getElementById('diagSubtitle').textContent = '集客力スコアが算出されました';
+  document.getElementById('diagMainIcon').textContent = '🏆';
+  document.getElementById('diagCompleteScore').textContent = score;
+  document.getElementById('diagComplete').classList.add('show');
+}
+
+// ═══ スコアメーター ═══
 function animateMeter(score) {
   const totalLength = 204;
   const arc = document.getElementById('meterArc');
   const scoreEl = document.getElementById('totalScore');
   const target = Math.round((score / 100) * totalLength);
-  const duration = 1200;
+  const duration = 1400;
   const startTime = performance.now();
   function update(now) {
     const elapsed = now - startTime;
@@ -947,6 +776,13 @@ function animateMeter(score) {
   requestAnimationFrame(update);
 }
 
+function getScoreComment(score) {
+  if (score >= 80) return '✅ 集客基盤はしっかりできています！さらなる上位表示に向け、口コミ件数の増加とコンテンツ充実を継続しましょう。';
+  if (score >= 60) return '⚠️ 基本はできていますが、改善の余地があります。特に口コミ数・サイト表示速度・写真登録数に注力すると効果的です。';
+  if (score >= 40) return '🔴 いくつかの重要項目に課題があります。今すぐ取り組める改善アクションを優先的に実施しましょう。';
+  return '🆘 集客機会を大きく損失している可能性があります。Googleマップの基本設定とサイト速度改善から着手することをお勧めします。';
+}
+
 function createCard(icon, name, value, comment, status) {
   const statusMap = { good: ['good','✅ 良好','badge-good'], warn: ['warn','⚠️ 要改善','badge-warn'], bad: ['bad','🔴 要対応','badge-bad'] };
   const [cls, badge, badgeCls] = statusMap[status] || statusMap['warn'];
@@ -957,6 +793,7 @@ function createProposal(num, title, desc, impact) {
   return `<div class="proposal-item"><div class="proposal-num">${num}</div><div class="proposal-content"><div class="title">${title}</div><div class="desc">${desc}</div><span class="impact">💡 ${impact}</span></div></div>`;
 }
 
+// ═══ 診断メイン ═══
 async function startDiagnosis() {
   const shopName = document.getElementById('shopName').value.trim();
   const industry = document.getElementById('industry').value;
@@ -974,6 +811,9 @@ async function startDiagnosis() {
   document.getElementById('btnDiagnose').disabled = true;
   document.getElementById('loading').classList.add('show');
   document.getElementById('resultArea').classList.remove('show');
+  document.getElementById('loading').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  startLoadingAnim();
 
   try {
     const [placesRes, psiRes] = await Promise.allSettled([
@@ -982,19 +822,49 @@ async function startDiagnosis() {
     ]);
     const placesData = placesRes.status === 'fulfilled' ? placesRes.value : null;
     const psiData = psiRes.status === 'fulfilled' ? psiRes.value : null;
-    renderResult(shopName, industry, placesData, psiData);
+
+    // スコアを先に計算
+    const score = calcScore(placesData, psiData);
+
+    // 完了演出
+    finishLoadingAnim(score);
+
+    // 1.5秒後に結果表示
+    setTimeout(() => {
+      document.getElementById('loading').classList.remove('show');
+      renderResult(shopName, industry, placesData, psiData, score);
+    }, 1800);
+
   } catch (err) {
+    document.getElementById('loading').classList.remove('show');
     errorBox.textContent = '診断中にエラーが発生しました。しばらく後でもう一度お試しください。';
     errorBox.classList.add('show');
   } finally {
-    document.getElementById('loading').classList.remove('show');
     document.getElementById('btnDiagnose').disabled = false;
   }
 }
 
-function renderResult(shopName, industry, places, psi) {
+function calcScore(places, psi) {
+  let score = 0;
+  if (places && places.result) {
+    const rating = places.result.rating || 0;
+    const reviewCount = places.result.user_ratings_total || 0;
+    const photos = (places.result.photos || []).length;
+    const hasHours = !!(places.result.opening_hours);
+    score += rating >= 4.0 ? 20 : rating >= 3.5 ? 12 : 5;
+    score += reviewCount >= 50 ? 20 : reviewCount >= 20 ? 13 : reviewCount >= 5 ? 7 : 2;
+    score += photos >= 10 ? 10 : photos >= 5 ? 6 : 2;
+    score += hasHours ? 10 : 0;
+  } else { score += 20; }
+  if (psi && psi.lighthouseResult) {
+    const perfScore = Math.round((psi.lighthouseResult.categories.performance?.score || 0) * 100);
+    score += perfScore >= 80 ? 20 : perfScore >= 50 ? 12 : 4;
+  } else { score += 20; }
+  return Math.min(score, 100);
+}
+
+function renderResult(shopName, industry, places, psi, totalScore) {
   document.getElementById('resultShopName').textContent = shopName;
-  let totalScore = 0;
   let proposals = [];
   let mapsCardsHTML = '';
   let seoCardsHTML = '';
@@ -1006,16 +876,12 @@ function renderResult(shopName, industry, places, psi) {
     const photos = (p.photos || []).length;
     const hasHours = !!(p.opening_hours);
 
-    const ratingScore = rating >= 4.0 ? 20 : rating >= 3.5 ? 12 : 5;
-    totalScore += ratingScore;
     mapsCardsHTML += createCard('⭐', 'Googleマップ評価', `${rating.toFixed(1)} / 5.0`,
       rating >= 4.0 ? '高評価を維持しています。引き続き口コミへの返信を忘れずに。' :
       rating >= 3.5 ? '平均的な評価です。サービス改善と口コミ返信で4.0超えを目指しましょう。' :
       '評価が低い状態です。口コミへの丁寧な返信と、サービス品質の見直しが急務です。',
       rating >= 4.0 ? 'good' : rating >= 3.5 ? 'warn' : 'bad');
 
-    const reviewScore = reviewCount >= 50 ? 20 : reviewCount >= 20 ? 13 : reviewCount >= 5 ? 7 : 2;
-    totalScore += reviewScore;
     mapsCardsHTML += createCard('💬', '口コミ件数', `${reviewCount} 件`,
       reviewCount >= 50 ? '口コミが豊富で信頼性が高い状態です。' :
       reviewCount >= 20 ? 'ある程度の口コミがあります。月5件ペースを目標に増やしましょう。' :
@@ -1024,23 +890,20 @@ function renderResult(shopName, industry, places, psi) {
       reviewCount >= 50 ? 'good' : reviewCount >= 20 ? 'warn' : 'bad');
     if (reviewCount < 20) proposals.push(['口コミ数を増やす仕組みを作る', 'QRコードを店内に設置し、LINE公式アカウントからも口コミ依頼メッセージを配信しましょう。', '月5〜10件の口コミ増加で集客力アップ見込み']);
 
-    const photoScore = photos >= 10 ? 10 : photos >= 5 ? 6 : 2;
-    totalScore += photoScore;
     mapsCardsHTML += createCard('📸', '登録写真枚数', `${photos} 枚`,
       photos >= 10 ? '写真が充実しています。季節ごとに更新すると効果的です。' :
       photos >= 5 ? '写真がやや少ない状態です。10枚以上を目標に追加しましょう。' :
       '写真が少なく、クリック率に影響しています。すぐに追加しましょう。',
       photos >= 10 ? 'good' : photos >= 5 ? 'warn' : 'bad');
 
-    totalScore += hasHours ? 10 : 0;
     mapsCardsHTML += createCard('🕐', '営業時間登録', hasHours ? '登録済み' : '未登録',
-      hasHours ? '営業時間が正しく登録されています。定休日も忘れずに設定しましょう。' : '営業時間が未登録です。すぐにGoogleビジネスプロフィールから設定してください。',
+      hasHours ? '営業時間が正しく登録されています。定休日も忘れずに設定しましょう。' :
+      '営業時間が未登録です。すぐにGoogleビジネスプロフィールから設定してください。',
       hasHours ? 'good' : 'bad');
     if (!hasHours) proposals.push(['営業時間を登録する', 'Googleビジネスプロフィールにログインし、営業時間・定休日を正確に登録してください。', '検索表示ランク改善・問い合わせ増加']);
 
   } else {
     mapsCardsHTML = `<div class="diag-card warn"><div class="card-name">Googleマップ情報</div><div class="card-value">取得できませんでした</div><div class="card-comment">店舗名を確認して再度お試しください。</div></div>`;
-    totalScore += 20;
   }
 
   if (psi && psi.lighthouseResult) {
@@ -1048,8 +911,6 @@ function renderResult(shopName, industry, places, psi) {
     const audits = psi.lighthouseResult.audits;
     const perfScore = Math.round((cats.performance?.score || 0) * 100);
 
-    const perfPoints = perfScore >= 80 ? 20 : perfScore >= 50 ? 12 : 4;
-    totalScore += perfPoints;
     seoCardsHTML += createCard('⚡', 'サイト表示速度スコア', `${perfScore} / 100`,
       perfScore >= 80 ? '高速なサイトです。SEOランキングにプラスに働いています。' :
       perfScore >= 50 ? '改善の余地があります。画像圧縮・キャッシュ設定を見直しましょう。' :
@@ -1075,17 +936,12 @@ function renderResult(shopName, industry, places, psi) {
 
   } else {
     seoCardsHTML = `<div class="diag-card warn"><div class="card-name">サイトSEO情報</div><div class="card-value">取得できませんでした</div><div class="card-comment">サイトURLを確認して再度お試しください。</div></div>`;
-    totalScore += 20;
   }
-
-  totalScore = Math.min(totalScore, 100);
 
   const tips = industryAdvice[industry] || industryAdvice['other'];
   const tipsHTML = tips.map(t => `<div class="industry-tip"><div class="tip-tag">${t.tag}</div><br>${t.text}</div>`).join('');
 
-  if (proposals.length === 0) {
-    proposals.push(['現状を維持しつつコンテンツを充実させる', '定期的な写真追加・口コミ返信・サイト更新を継続することで、さらなる上位表示が見込めます。', '継続改善による安定した集客維持']);
-  }
+  if (proposals.length === 0) proposals.push(['現状を維持しつつコンテンツを充実させる', '定期的な写真追加・口コミ返信・サイト更新を継続することで、さらなる上位表示が見込めます。', '継続改善による安定した集客維持']);
   const proposalHTML = proposals.slice(0,3).map((p,i) => createProposal(i+1, p[0], p[1], p[2])).join('');
 
   document.getElementById('mapsCards').innerHTML = mapsCardsHTML;
@@ -1095,7 +951,7 @@ function renderResult(shopName, industry, places, psi) {
   document.getElementById('scoreComment').textContent = getScoreComment(totalScore);
 
   document.getElementById('resultArea').classList.add('show');
-  setTimeout(() => animateMeter(totalScore), 100);
+  setTimeout(() => animateMeter(totalScore), 200);
   document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
